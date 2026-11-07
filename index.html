@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S & H Wedding Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES & THEME --- */
+        :root {
+            --bg-color: #F9F6F0; /* Ivory */
+            --text-main: #3A4A3F; /* Deep Sage Green */
+            --text-sub: #6B705C;
+            --accent-rose: #B76E79; /* Rose Gold */
+            --accent-gold: #C5A880;
+            --card-bg: #FFFFFF;
+            --shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode {
+            --bg-color: #1A1D1A; /* Dark Sage/Charcoal */
+            --text-main: #E8E8E8;
+            --text-sub: #A0A0A0;
+            --card-bg: #232723;
+            --shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- SPLASH SCREEN --- */
+        #splash {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        #splash h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            color: var(--accent-rose);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .btn-open {
+            padding: 12px 30px;
+            border: 1px solid var(--accent-rose);
+            background: transparent;
+            color: var(--accent-rose);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        .btn-open:hover {
+            background: var(--accent-rose);
+            color: #fff;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(183, 110, 121, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(183, 110, 121, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(183, 110, 121, 0); }
+        }
+
+        /* --- MAIN CONTENT --- */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- CONTROLS (Theme & Audio) --- */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        .control-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-gold);
+            color: var(--text-main);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        .control-btn:hover { transform: scale(1.1); }
+
+        /* --- 3D CARD SCENE --- */
+        .scene {
+            width: 100%;
+            max-width: 400px;
+            height: 600px;
+            perspective: 1200px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            z-index: 10;
+        }
+        .card-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .card-container.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 5px solid var(--card-bg);
+            /* 3D Tilt Effect applied via JS */
+        }
+        .card-front {
+            background-image: url('depan.jpg');
+        }
+        .card-back {
+            background-image: url('belakang.jpg');
+            transform: rotateY(180deg);
+        }
+
+        /* --- TEXT & BUTTONS SECTION --- */
+        .info-section {
+            text-align: center;
+            max-width: 400px;
+            margin-bottom: 50px;
+        }
+        .names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: var(--accent-rose);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        .date-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* --- COUNTDOWN --- */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .countdown-box {
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-gold);
+            min-width: 70px;
+        }
+        .countdown-box span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-rose);
+        }
+        .countdown-box small {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-sub);
+        }
+
+        /* --- ACTION BUTTONS --- */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            padding: 0 20px;
+        }
+        .btn-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-rsvp {
+            background-color: var(--accent-rose);
+            color: #fff;
+        }
+        .btn-maps, .btn-calendar {
+            background-color: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--text-main);
+        }
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* --- BACKGROUND PARTICLES --- */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Splash Screen (Unlock Audio & Dramatic Entry) -->
+    <div id="splash">
+        <h1>Syahiran & Nurhidayah</h1>
+        <p style="margin-bottom: 30px; font-size: 0.9rem; letter-spacing: 2px;">22 . 11 . 2026</p>
+        <button class="btn-open" onclick="openInvitation()">Tap to Open 💌</button>
+    </div>
+
+    <!-- Background Particles -->
+    <div id="particles-js"></div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        
+        <!-- Controls -->
+        <div class="top-controls">
+            <button class="control-btn" id="audioBtn" onclick="toggleAudio()" title="Play Music">🎵</button>
+            <button class="control-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+        </div>
+
+        <!-- 3D Card Scene -->
+        <div class="scene" id="scene">
+            <div class="card-container" id="card" onclick="flipCard()">
+                <div class="card-face card-front"></div>
+                <div class="card-face card-back"></div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <div class="names">Syahiran & Nurhidayah</div>
+            <div class="date-text">22 November 2026</div>
+
+            <!-- Countdown -->
+            <div class="countdown-container" id="countdown">
+                <div class="countdown-box"><span id="days">00</span><small>Days</small></div>
+                <div class="countdown-box"><span id="hours">00</span><small>Hours</small></div>
+                <div class="countdown-box"><span id="mins">00</span><small>Mins</small></div>
+                <div class="countdown-box"><span id="secs">00</span><small>Secs</small></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <!-- WhatsApp RSVP -->
+                <a href="https://wa.me/6596486606?text=Hi!%20Saya%20ingin%20mengesahkan%20kehadiran%20ke%20majlis%20Syahiran%20%26%20Nurhidayah." target="_blank" class="btn-action btn-rsvp">
+                    💬 RSVP via WhatsApp
+                </a>
+                <!-- Google Maps -->
+                <a href="https://maps.google.com/?q=The+Iris+810+Geylang+Road+City+Plaza+Singapore+409286" target="_blank" class="btn-action btn-maps">
+                    📍 View Location (The Iris)
+                </a>
+                <!-- Add to Calendar -->
+                <button onclick="downloadICS()" class="btn-action btn-calendar">
+                    📅 Add to Calendar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- 1. SPLASH & INITIALIZATION --- */
+        let audioCtx;
+        let isAudioPlaying = false;
+        let audioTimeout;
+
+        function openInvitation() {
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash').style.display = 'none';
+                document.getElementById('main-content').style.opacity = '1';
+                document.getElementById('main-content').style.visibility = 'visible';
+                
+                // Initialize Particles
+                initParticles();
+                
+                // Play Audio (Browser requires user interaction first)
+                playRomanticAudio();
+            }, 800);
+        }
+
+        /* --- 2. THEME TOGGLE --- */
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelectorAll('.control-btn')[1];
+            if(document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '☀️';
+            } else {
+                btn.innerHTML = '🌙';
+            }
+        }
+
+        /* --- 3. 3D CARD FLIP & TILT --- */
+        const card = document.getElementById('card');
+        let isFlipped = false;
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            if(isFlipped) {
+                card.classList.add('flipped');
+            } else {
+                card.classList.remove('flipped');
+            }
+        }
+
+        // Tilt effect on mouse move
+        document.getElementById('scene').addEventListener('mousemove', (e) => {
+            if(isFlipped) return; // Disable tilt when flipped
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        document.getElementById('scene').addEventListener('mouseleave', () => {
+            if(isFlipped) return;
+            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            card.style.transition = 'transform 0.5s ease';
+            setTimeout(() => card.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 500);
+        });
+
+        /* --- 4. COUNTDOWN TIMER --- */
+        const targetDate = new Date("November 22, 2026 17:30:00").getTime();
+        
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) return;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("mins").innerText = mins < 10 ? "0" + mins : mins;
+            document.getElementById("secs").innerText = secs < 10 ? "0" + secs : secs;
+        }, 1000);
+
+        /* --- 5. WEB AUDIO API (ROMANTIC HARP/BELL SYNTH) --- */
+        function playRomanticAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            isAudioPlaying = true;
+            document.getElementById('audioBtn').innerHTML = '🔊';
+
+            // Base frequency (C Major chord progression)
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25]; // C4, E4, G4, C5, E5
+            
+            // Master Gain for Swell/Fade Effect
+            const masterGain = audioCtx.createGain();
+            masterGain.connect(audioCtx.destination);
+            
+            // Volume Envelope: Fade in slow (0-5s) -> Peak (5-15s) -> Fade out slow (15-25s)
+            masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+            masterGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 5); // Fade in
+            masterGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 15); // Sustain
+            masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 25); // Fade out
+
+            // Play sequence of notes (Arpeggio)
+            let time = audioCtx.currentTime;
+            for (let i = 0; i < 30; i++) { // Play for 25 seconds
+                let freq = notes[Math.floor(Math.random() * notes.length)];
+                // Add slight octave variation
+                if (Math.random() > 0.5) freq *= 2;
+                
+                playTone(freq, time, 1.5, masterGain);
+                time += 0.8; // Speed of arpeggio
+            }
+
+            // Stop audio context after fade out to save memory
+            audioTimeout = setTimeout(() => {
+                isAudioPlaying = false;
+                document.getElementById('audioBtn').innerHTML = '🎵';
+            }, 25000);
+        }
+
+        function playTone(freq, startTime, duration, masterGain) {
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            // Harp/Bell sound (Sine wave with quick decay)
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, startTime);
+            
+            gainNode.gain.setValueAtTime(0, startTime);
+            gainNode.gain.linearRampToValueAtTime(0.5, startTime + 0.05); // Pluck attack
+            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration); // Long decay
+            
+            osc.connect(gainNode);
+            gainNode.connect(masterGain);
+            
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+        }
+
+        function toggleAudio() {
+            if (isAudioPlaying) {
+                audioCtx.suspend();
+                isAudioPlaying = false;
+                document.getElementById('audioBtn').innerHTML = '🔇';
+            } else {
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                    isAudioPlaying = true;
+                    document.getElementById('audioBtn').innerHTML = '🔊';
+                } else {
+                    playRomanticAudio();
+                }
+            }
+        }
+
+        /* --- 6. ADD TO CALENDAR (ICS GENERATOR) --- */
+        function downloadICS() {
+            const icsContent = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//S&H Wedding//EN
+BEGIN:VEVENT
+UID:${new Date().getTime()}@wedding.com
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:20261122T093000Z
+DTEND:20261122T133000Z
+SUMMARY:Wedding of Syahiran & Nurhidayah
+LOCATION:The Iris, 810 Geylang Road, City Plaza, #04-28/37 Singapore 409286
+DESCRIPTION:Together with their families, we invite you to join the wedding celebration.
+END:VEVENT
+END:VCALENDAR`;
+
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'S_H_Wedding.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        /* --- 7. BACKGROUND PARTICLES (FALLING PETALS) --- */
+        function initParticles() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const container = document.getElementById('particles-js');
+            container.appendChild(canvas);
+
+            let width, height;
+            let petals = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Petal {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height - height;
+                    this.size = Math.random() * 5 + 5; // Petal size
+                    this.speedY = Math.random() * 1 + 0.5;
+                    this.speedX = Math.random() * 2 - 1;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                    this.angle = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += Math.sin(this.angle) * 0.5; // Swaying motion
+                    this.angle += 0.02;
+                    if (this.y > height) {
+                        this.y = -10;
+                        this.x = Math.random() * width;
+                    }
+                }
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.beginPath();
+                    // Draw petal shape (ellipse)
+                    ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
+                    // Rose Gold/Pink color
+                    ctx.fillStyle = `rgba(183, 110, 121, ${this.opacity})`; 
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < 40; i++) {
+                petals.push(new Petal());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                petals.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
