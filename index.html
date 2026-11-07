@@ -39,8 +39,9 @@
             transition: background-color 0.5s ease, color 0.5s ease;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Ubah ke flex-start untuk mobile scroll */
             min-height: 100vh;
+            padding-top: 10px;
         }
 
         /* --- SPLASH SCREEN --- */
@@ -92,7 +93,7 @@
             visibility: hidden;
             transition: opacity 1.5s ease;
             width: 100%;
-            padding: 20px;
+            padding: 10px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -101,24 +102,24 @@
         /* --- CONTROLS (Theme & Audio) --- */
         .top-controls {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             display: flex;
-            gap: 15px;
+            gap: 10px;
             z-index: 100;
         }
         .control-btn {
             background: var(--card-bg);
             border: 1px solid var(--accent-gold);
             color: var(--text-main);
-            width: 45px; height: 45px;
+            width: 40px; height: 40px; /* Kecikkan sikit */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: all 0.3s;
         }
         .control-btn:hover { transform: scale(1.1); }
@@ -126,11 +127,11 @@
         /* --- 3D CARD SCENE --- */
         .scene {
             width: 100%;
-            max-width: 400px;
-            height: 600px;
+            max-width: 320px; /* Kecikkan dari 400px ke 320px */
+            height: 480px;    /* Kecikkan dari 600px ke 480px */
             perspective: 1200px;
-            margin-top: 40px;
-            margin-bottom: 40px;
+            margin-top: 50px;
+            margin-bottom: 10px;
             z-index: 10;
         }
         .card-container {
@@ -155,34 +156,43 @@
             background-position: center;
             background-repeat: no-repeat;
             border: 5px solid var(--card-bg);
-            /* 3D Tilt Effect applied via JS */
         }
-        .card-front {
-            background-image: url('depan.jpg');
+        .card-front { background-image: url('depan.jpg'); }
+        .card-back { background-image: url('belakang.jpg'); transform: rotateY(180deg); }
+
+        /* --- ARROW SCROLL INDICATOR --- */
+        .scroll-arrow {
+            font-size: 1.5rem;
+            color: var(--accent-rose);
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            opacity: 0.8;
         }
-        .card-back {
-            background-image: url('belakang.jpg');
-            transform: rotateY(180deg);
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         /* --- TEXT & BUTTONS SECTION --- */
         .info-section {
             text-align: center;
-            max-width: 400px;
-            margin-bottom: 50px;
+            max-width: 350px;
+            margin-bottom: 40px;
         }
         .names {
             font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
+            font-size: 2.5rem; /* Kecikkan sikit */
             color: var(--accent-rose);
-            margin-bottom: 10px;
-            line-height: 1.2;
+            margin-bottom: 5px;
+            line-height: 1.1;
         }
         .date-text {
             font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
+            font-size: 1rem;
             letter-spacing: 2px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-transform: uppercase;
         }
 
@@ -190,24 +200,24 @@
         .countdown-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
+            gap: 8px; /* Rapatkan sikit */
+            margin-bottom: 25px;
         }
         .countdown-box {
             background: var(--card-bg);
-            padding: 10px 15px;
+            padding: 8px 10px;
             border-radius: 8px;
             border: 1px solid var(--accent-gold);
-            min-width: 70px;
+            min-width: 60px; /* Kecikkan */
         }
         .countdown-box span {
             display: block;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--accent-rose);
         }
         .countdown-box small {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-sub);
@@ -217,39 +227,28 @@
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
-            padding: 0 20px;
         }
         .btn-action {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 15px;
+            padding: 14px;
             border-radius: 30px;
             text-decoration: none;
             font-family: 'Montserrat', sans-serif;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
         }
-        .btn-rsvp {
-            background-color: var(--accent-rose);
-            color: #fff;
-        }
-        .btn-maps, .btn-calendar {
-            background-color: transparent;
-            border: 1px solid var(--accent-gold);
-            color: var(--text-main);
-        }
-        .btn-action:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
+        .btn-rsvp { background-color: var(--accent-rose); color: #fff; }
+        .btn-maps, .btn-calendar { background-color: transparent; border: 1px solid var(--accent-gold); color: var(--text-main); }
+        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
 
         /* --- BACKGROUND PARTICLES --- */
         #particles-js {
@@ -262,26 +261,20 @@
 </head>
 <body>
 
-    <!-- Splash Screen (Unlock Audio & Dramatic Entry) -->
     <div id="splash">
         <h1>Syahiran & Nurhidayah</h1>
         <p style="margin-bottom: 30px; font-size: 0.9rem; letter-spacing: 2px;">22 . 11 . 2026</p>
         <button class="btn-open" onclick="openInvitation()">Tap to Open 💌</button>
     </div>
 
-    <!-- Background Particles -->
     <div id="particles-js"></div>
 
-    <!-- Main Content -->
     <div id="main-content">
-        
-        <!-- Controls -->
         <div class="top-controls">
             <button class="control-btn" id="audioBtn" onclick="toggleAudio()" title="Play Music">🎵</button>
             <button class="control-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
         </div>
 
-        <!-- 3D Card Scene -->
         <div class="scene" id="scene">
             <div class="card-container" id="card" onclick="flipCard()">
                 <div class="card-face card-front"></div>
@@ -289,12 +282,15 @@
             </div>
         </div>
 
-        <!-- Info Section -->
-        <div class="info-section">
+        <!-- ARROW SURUH SCROLL -->
+        <div class="scroll-arrow" onclick="document.getElementById('details').scrollIntoView({behavior: 'smooth'})">
+            ⬇️
+        </div>
+
+        <div class="info-section" id="details">
             <div class="names">Syahiran & Nurhidayah</div>
             <div class="date-text">22 November 2026</div>
 
-            <!-- Countdown -->
             <div class="countdown-container" id="countdown">
                 <div class="countdown-box"><span id="days">00</span><small>Days</small></div>
                 <div class="countdown-box"><span id="hours">00</span><small>Hours</small></div>
@@ -302,17 +298,13 @@
                 <div class="countdown-box"><span id="secs">00</span><small>Secs</small></div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="action-buttons">
-                <!-- WhatsApp RSVP -->
                 <a href="https://wa.me/6596486606?text=Hi!%20Saya%20ingin%20mengesahkan%20kehadiran%20ke%20majlis%20Syahiran%20%26%20Nurhidayah." target="_blank" class="btn-action btn-rsvp">
                     💬 RSVP via WhatsApp
                 </a>
-                <!-- Google Maps -->
                 <a href="https://maps.google.com/?q=The+Iris+810+Geylang+Road+City+Plaza+Singapore+409286" target="_blank" class="btn-action btn-maps">
                     📍 View Location (The Iris)
                 </a>
-                <!-- Add to Calendar -->
                 <button onclick="downloadICS()" class="btn-action btn-calendar">
                     📅 Add to Calendar
                 </button>
@@ -321,7 +313,6 @@
     </div>
 
     <script>
-        /* --- 1. SPLASH & INITIALIZATION --- */
         let audioCtx;
         let isAudioPlaying = false;
         let audioTimeout;
@@ -332,42 +323,28 @@
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('main-content').style.opacity = '1';
                 document.getElementById('main-content').style.visibility = 'visible';
-                
-                // Initialize Particles
                 initParticles();
-                
-                // Play Audio (Browser requires user interaction first)
                 playRomanticAudio();
             }, 800);
         }
 
-        /* --- 2. THEME TOGGLE --- */
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.querySelectorAll('.control-btn')[1];
-            if(document.body.classList.contains('dark-mode')) {
-                btn.innerHTML = '☀️';
-            } else {
-                btn.innerHTML = '🌙';
-            }
+            btn.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
 
-        /* --- 3. 3D CARD FLIP & TILT --- */
         const card = document.getElementById('card');
         let isFlipped = false;
 
         function flipCard() {
             isFlipped = !isFlipped;
-            if(isFlipped) {
-                card.classList.add('flipped');
-            } else {
-                card.classList.remove('flipped');
-            }
+            if(isFlipped) card.classList.add('flipped');
+            else card.classList.remove('flipped');
         }
 
-        // Tilt effect on mouse move
         document.getElementById('scene').addEventListener('mousemove', (e) => {
-            if(isFlipped) return; // Disable tilt when flipped
+            if(isFlipped) return;
             const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
             card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
@@ -380,78 +357,73 @@
             setTimeout(() => card.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)', 500);
         });
 
-        /* --- 4. COUNTDOWN TIMER --- */
+        // --- COUNTDOWN ---
         const targetDate = new Date("November 22, 2026 17:30:00").getTime();
-        
         setInterval(() => {
             const now = new Date().getTime();
             const distance = targetDate - now;
-
             if (distance < 0) return;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("mins").innerText = mins < 10 ? "0" + mins : mins;
-            document.getElementById("secs").innerText = secs < 10 ? "0" + secs : secs;
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            document.getElementById("mins").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            document.getElementById("secs").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        /* --- 5. WEB AUDIO API (ROMANTIC HARP/BELL SYNTH) --- */
+        // --- WEB AUDIO API (UPDATED: CANON IN D STYLE / CERIC) ---
         function playRomanticAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
             
             isAudioPlaying = true;
             document.getElementById('audioBtn').innerHTML = '🔊';
 
-            // Base frequency (C Major chord progression)
-            const notes = [261.63, 329.63, 392.00, 523.25, 659.25]; // C4, E4, G4, C5, E5
-            
-            // Master Gain for Swell/Fade Effect
             const masterGain = audioCtx.createGain();
             masterGain.connect(audioCtx.destination);
             
-            // Volume Envelope: Fade in slow (0-5s) -> Peak (5-15s) -> Fade out slow (15-25s)
+            // Volume Envelope: Fade in perlahan, kekal, fade out
             masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
-            masterGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 5); // Fade in
-            masterGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 15); // Sustain
-            masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 25); // Fade out
+            masterGain.gain.linearRampToValueAtTime(0.25, audioCtx.currentTime + 4);
+            masterGain.gain.linearRampToValueAtTime(0.25, audioCtx.currentTime + 20);
+            masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 28);
 
-            // Play sequence of notes (Arpeggio)
-            let time = audioCtx.currentTime;
-            for (let i = 0; i < 30; i++) { // Play for 25 seconds
-                let freq = notes[Math.floor(Math.random() * notes.length)];
-                // Add slight octave variation
-                if (Math.random() > 0.5) freq *= 2;
+            // Melodi Ceria (Progression: D Major -> A Major -> B Minor -> G Major)
+            // Frekuensi: D4, F#4, A4, D5
+            const notesD = [293.66, 369.99, 440.00, 587.33];
+            const notesA = [220.00, 277.18, 329.63, 440.00];
+            const notesBm = [246.94, 293.66, 369.99, 493.88];
+            const notesG = [196.00, 246.94, 293.66, 392.00];
+            
+            let time = audioCtx.currentTime + 0.5;
+            
+            // Loop melodi arpeggio (naik turun) sebanyak 4 kitaran
+            for (let loop = 0; loop < 4; loop++) {
+                let seq1 = (loop % 2 === 0) ? notesD : notesA;
+                let seq2 = (loop % 2 === 0) ? notesBm : notesG;
                 
-                playTone(freq, time, 1.5, masterGain);
-                time += 0.8; // Speed of arpeggio
+                // Arpeggio Chord 1
+                seq1.forEach(freq => { playTone(freq, time, 1.2, masterGain); time += 0.3; });
+                // Arpeggio Chord 2
+                seq2.forEach(freq => { playTone(freq, time, 1.2, masterGain); time += 0.3; });
             }
 
-            // Stop audio context after fade out to save memory
             audioTimeout = setTimeout(() => {
                 isAudioPlaying = false;
                 document.getElementById('audioBtn').innerHTML = '🎵';
-            }, 25000);
+            }, 28000);
         }
 
         function playTone(freq, startTime, duration, masterGain) {
             const osc = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
             
-            // Harp/Bell sound (Sine wave with quick decay)
-            osc.type = 'sine';
+            // Tukar ke 'triangle' untuk bunyi plucking yang lebih ceria
+            osc.type = 'triangle'; 
             osc.frequency.setValueAtTime(freq, startTime);
             
             gainNode.gain.setValueAtTime(0, startTime);
-            gainNode.gain.linearRampToValueAtTime(0.5, startTime + 0.05); // Pluck attack
-            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration); // Long decay
+            gainNode.gain.linearRampToValueAtTime(0.6, startTime + 0.02); // Attack tajam
+            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration); // Decay
             
             osc.connect(gainNode);
             gainNode.connect(masterGain);
@@ -476,23 +448,8 @@
             }
         }
 
-        /* --- 6. ADD TO CALENDAR (ICS GENERATOR) --- */
         function downloadICS() {
-            const icsContent = 
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//S&H Wedding//EN
-BEGIN:VEVENT
-UID:${new Date().getTime()}@wedding.com
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
-DTSTART:20261122T093000Z
-DTEND:20261122T133000Z
-SUMMARY:Wedding of Syahiran & Nurhidayah
-LOCATION:The Iris, 810 Geylang Road, City Plaza, #04-28/37 Singapore 409286
-DESCRIPTION:Together with their families, we invite you to join the wedding celebration.
-END:VEVENT
-END:VCALENDAR`;
-
+            const icsContent = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//S&H Wedding//EN\nBEGIN:VEVENT\nUID:${new Date().getTime()}@wedding.com\nDTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\nDTSTART:20261122T093000Z\nDTEND:20261122T133000Z\nSUMMARY:Wedding of Syahiran & Nurhidayah\nLOCATION:The Iris, 810 Geylang Road, City Plaza, #04-28/37 Singapore 409286\nDESCRIPTION:Together with their families, we invite you to join the wedding celebration.\nEND:VEVENT\nEND:VCALENDAR`;
             const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
@@ -502,66 +459,42 @@ END:VCALENDAR`;
             document.body.removeChild(link);
         }
 
-        /* --- 7. BACKGROUND PARTICLES (FALLING PETALS) --- */
         function initParticles() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const container = document.getElementById('particles-js');
             container.appendChild(canvas);
 
-            let width, height;
-            let petals = [];
-
-            function resize() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
+            let width, height, petals = [];
+            function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
+            window.addEventListener('resize', resize); resize();
 
             class Petal {
                 constructor() {
                     this.x = Math.random() * width;
                     this.y = Math.random() * height - height;
-                    this.size = Math.random() * 5 + 5; // Petal size
-                    this.speedY = Math.random() * 1 + 0.5;
+                    this.size = Math.random() * 5 + 5;
+                    this.speedY = Math.random() * 1.5 + 0.5; // Laju sikit
                     this.speedX = Math.random() * 2 - 1;
-                    this.opacity = Math.random() * 0.5 + 0.2;
+                    this.opacity = Math.random() * 0.5 + 0.3;
                     this.angle = Math.random() * Math.PI * 2;
                 }
                 update() {
                     this.y += this.speedY;
-                    this.x += Math.sin(this.angle) * 0.5; // Swaying motion
+                    this.x += Math.sin(this.angle) * 0.8;
                     this.angle += 0.02;
-                    if (this.y > height) {
-                        this.y = -10;
-                        this.x = Math.random() * width;
-                    }
+                    if (this.y > height) { this.y = -10; this.x = Math.random() * width; }
                 }
                 draw() {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.angle);
-                    ctx.beginPath();
-                    // Draw petal shape (ellipse)
+                    ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle); ctx.beginPath();
                     ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
-                    // Rose Gold/Pink color
-                    ctx.fillStyle = `rgba(183, 110, 121, ${this.opacity})`; 
-                    ctx.fill();
-                    ctx.restore();
+                    ctx.fillStyle = `rgba(183, 110, 121, ${this.opacity})`; ctx.fill(); ctx.restore();
                 }
             }
-
-            for (let i = 0; i < 40; i++) {
-                petals.push(new Petal());
-            }
-
+            for (let i = 0; i < 50; i++) petals.push(new Petal());
             function animate() {
                 ctx.clearRect(0, 0, width, height);
-                petals.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
+                petals.forEach(p => { p.update(); p.draw(); });
                 requestAnimationFrame(animate);
             }
             animate();
