@@ -528,14 +528,33 @@
                 // MATIKAN BUNYI (Mute)
                 isAudioPlaying = false;
                 if (loopTimer) clearTimeout(loopTimer);
-                if (audioCtx) {
-                    audioCtx.close(); // Tutup terus enjin audio (bunyi terus senyap)
-                    audioCtx = null; 
+                if (masterGain && audioCtx) {
+                    // Serta-merta set volume ke 0 (terus senyap)
+                    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+                    masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
                 }
                 document.getElementById('audioBtn').innerHTML = '🔇';
             } else {
                 // HIDUPKAN BUNYI (Play)
-                playLoopAudio();
+                if (masterGain && audioCtx) {
+                    // Hidupkan balik volume asal
+                    masterGain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+                    isAudioPlaying = true;
+                    document.getElementById('audioBtn').innerHTML = '🔊';
+                    
+                    // Start loop balik (kalau loop timer dah mati tadi)
+                    if (!loopTimer) {
+                        const runLoop = () => {
+                            if (!isAudioPlaying) return;
+                            const cycleStart = audioCtx.currentTime + 0.1;
+                            playCycle(cycleStart);
+                            loopTimer = setTimeout(runLoop, (MELODY_DURATION + LOOP_GAP) * 1000);
+                        };
+                        runLoop();
+                    }
+                } else {
+                    playLoopAudio();
+                }
             }
         }
 
