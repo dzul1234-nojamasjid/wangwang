@@ -173,6 +173,7 @@
                 /* --- WISH BOARD --- */
         .wish-board {
             width: 100%; margin-top: 40px; padding: 20px; 
+            margin-left: auto; margin-right: auto; /* <-- TAMBAH BARIS NI */
             background: var(--card-bg); border-radius: 15px; 
             box-shadow: var(--shadow); text-align: center;
         }
@@ -247,9 +248,7 @@
                     📅 Add to Calendar
                 </button>
             </div>
-        </div>
-    </div>
-                <!-- WISH BOARD SECTION -->
+            <!-- WISH BOARD SECTION -->
             <div class="wish-board" id="wishBoard">
                 <h3 class="wish-title">Wishes from Loved Ones</h3>
                 <div id="wishesList" class="wishes-list">
@@ -258,6 +257,9 @@
                 </div>
             </div>
 
+        </div> <!-- Ini penutup info-section -->
+    </div> <!-- Ini penutup main-content -->
+                
     <!-- === RSVP MODAL (POP-UP) === -->
     <div id="rsvpModal" class="modal-overlay">
         <div class="modal-content">
