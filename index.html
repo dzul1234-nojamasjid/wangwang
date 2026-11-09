@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S & H Wedding Invitation</title>
-    <link rel="icon" href="data:,"> <!-- Elak error favicon 404 -->
+    <link rel="icon" href="data:,"> <!-- Elak error favicon -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* --- VARIABLES & THEME --- */
@@ -91,7 +91,7 @@
         }
         .control-btn:hover { transform: scale(1.1); }
 
-        /* --- 3D CARD SCENE (PALING KUKUH) --- */
+        /* --- 3D CARD SCENE (BETUL-BETUL STANDARD) --- */
         .scene {
             width: 100%; max-width: 320px; height: 480px;    
             perspective: 1000px; margin-top: 50px; margin-bottom: 30px; z-index: 10;
@@ -99,16 +99,19 @@
         
         .card-container {
             width: 100%; height: 100%; position: relative;
-            /* Transisi untuk pusing */
             transition: transform 0.8s ease-in-out;
+            transform-style: preserve-3d; /* WAJIB ADA UNTUK 3D */
             cursor: pointer;
-            /* Kita buang preserve-3d untuk elak bug Chrome */
+        }
+        
+        /* Bila class 'flipped' ditambah, pusing 180 darjah */
+        .card-container.flipped {
+            transform: rotateY(180deg);
         }
         
         .card-face {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* Sembunyikan bahagian belakang gambar */
-            -webkit-backface-visibility: hidden; 
+            -webkit-backface-visibility: hidden; /* Sembunyikan belakang gambar */
             backface-visibility: hidden;
             border-radius: 12px;
             box-shadow: var(--shadow); background-size: cover;
@@ -117,22 +120,16 @@
             background-color: #333;
         }
         
-        /* Depan: Biasa */
+        /* Depan */
         .card-front { 
             background-image: url('depan.jpg'); 
-            z-index: 2; 
+            transform: rotateY(0deg); 
         }
         
-        /* Belakang: Pusing 180 darjah dari awal */
+        /* Belakang (Pusing awal supaya tak cermin bila container pusing) */
         .card-back { 
             background-image: url('belakang.jpg'); 
             transform: rotateY(180deg); 
-            z-index: 1;
-        }
-
-        /* Class yang JS akan tambah untuk pusing */
-        .flipped {
-            transform: rotateY(180deg);
         }
 
         /* --- TEXT & BUTTONS SECTION --- */
@@ -208,7 +205,8 @@
         </div>
 
         <div class="scene" id="scene">
-            <div class="card-container" id="card" onclick="flipCard()">
+            <!-- PENTING: onclick pada container, BUKAN pada face -->
+            <div class="card-container" id="card" onclick="flipCard(event)">
                 <div class="card-face card-front"></div>
                 <div class="card-face card-back"></div>
             </div>
@@ -285,26 +283,28 @@
             btn.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
 
-        // --- LOGIK FLIP MENGGUNAKAN JS DIRECT ---
+        // --- LOGIK FLIP YANG PALING SELAMAT ---
         const card = document.getElementById('card');
         let isFlipped = false;
 
-        function flipCard() {
+        function flipCard(event) {
+            if(event) event.stopPropagation();
             isFlipped = !isFlipped;
-            // Kita paksa JS set transform secara direct tanpa bergantung pada class
-            if (isFlipped) {
-                card.style.transform = 'rotateY(180deg)';
-            } else {
-                card.style.transform = 'rotateY(0deg)';
-            }
+            card.classList.toggle('flipped');
+            
+            // Reset tilt bila flip
+            card.style.transform = ''; 
         }
 
-        // Tilt effect
+        // Tilt effect (pastikan tak lari bila flip)
         document.getElementById('scene').addEventListener('mousemove', (e) => {
             if(isFlipped) return; // Jangan tilt kalau tengah tunjuk belakang
             const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            // Kita guna CSS variable atau terus, tapi kita kena pastikan class flipped tak di-override
+            if(!card.classList.contains('flipped')) {
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
         });
 
         document.getElementById('scene').addEventListener('mouseleave', () => {
