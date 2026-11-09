@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S & H Wedding Invitation</title>
-    <link rel="icon" href="data:,"> <!-- Elak error favicon -->
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* --- VARIABLES & THEME --- */
@@ -91,81 +91,39 @@
         }
         .control-btn:hover { transform: scale(1.1); }
 
-        /* --- 3D CARD SCENE (BETUL-BETUL STANDARD) --- */
+        /* --- 3D CARD SCENE --- */
         .scene {
             width: 100%; max-width: 320px; height: 480px;    
             perspective: 1000px; margin-top: 50px; margin-bottom: 30px; z-index: 10;
         }
-        
         .card-container {
             width: 100%; height: 100%; position: relative;
             transition: transform 0.8s ease-in-out;
-            transform-style: preserve-3d; /* WAJIB ADA UNTUK 3D */
+            transform-style: preserve-3d;
             cursor: pointer;
         }
-        
-        /* Bila class 'flipped' ditambah, pusing 180 darjah */
-        .card-container.flipped {
-            transform: rotateY(180deg);
-        }
-        
+        .card-container.flipped { transform: rotateY(180deg); }
         .card-face {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            -webkit-backface-visibility: hidden; /* Sembunyikan belakang gambar */
-            backface-visibility: hidden;
-            border-radius: 12px;
-            box-shadow: var(--shadow); background-size: cover;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 12px; box-shadow: var(--shadow); background-size: cover;
             background-position: center; background-repeat: no-repeat;
-            border: 5px solid var(--card-bg);
-            background-color: #333;
+            border: 5px solid var(--card-bg); background-color: #333;
         }
-        
-        /* Depan */
-        .card-front { 
-            background-image: url('depan.jpg'); 
-            transform: rotateY(0deg); 
-        }
-        
-        /* Belakang (Pusing awal supaya tak cermin bila container pusing) */
-        .card-back { 
-            background-image: url('belakang.jpg'); 
-            transform: rotateY(180deg); 
-        }
+        .card-front { background-image: url('depan.jpg'); transform: rotateY(0deg); }
+        .card-back { background-image: url('belakang.jpg'); transform: rotateY(180deg); }
 
         /* --- TEXT & BUTTONS SECTION --- */
-        .info-section {
-            text-align: center; max-width: 350px;
-            margin-bottom: 50px; padding-top: 20px;
-        }
-        .names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem; color: var(--accent-rose);
-            margin-bottom: 5px; line-height: 1.1;
-        }
-        
-        .date-container {
-            display: flex; flex-direction: column; align-items: center; margin-bottom: 25px;
-        }
-        .day-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2rem; color: var(--accent-rose); margin-bottom: -5px;
-        }
-        .date-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.95rem; font-weight: 600;
-            letter-spacing: 2px; text-transform: uppercase; color: var(--text-main);
-        }
-        .time-text {
-            font-size: 0.85rem; font-weight: 500;
-            letter-spacing: 2px; color: var(--text-sub); margin-top: 5px;
-        }
+        .info-section { text-align: center; max-width: 350px; margin-bottom: 50px; padding-top: 20px; }
+        .names { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--accent-rose); margin-bottom: 5px; line-height: 1.1; }
+        .date-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 25px; }
+        .day-text { font-family: 'Great Vibes', cursive; font-size: 2rem; color: var(--accent-rose); margin-bottom: -5px; }
+        .date-text { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-main); }
+        .time-text { font-size: 0.85rem; font-weight: 500; letter-spacing: 2px; color: var(--text-sub); margin-top: 5px; }
 
         /* --- COUNTDOWN --- */
         .countdown-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; }
-        .countdown-box {
-            background: var(--card-bg); padding: 8px 10px;
-            border-radius: 8px; border: 1px solid var(--accent-gold); min-width: 60px; 
-        }
+        .countdown-box { background: var(--card-bg); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--accent-gold); min-width: 60px; }
         .countdown-box span { display: block; font-size: 1.3rem; font-weight: 600; color: var(--accent-rose); }
         .countdown-box small { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-sub); }
 
@@ -182,10 +140,36 @@
         .btn-action:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
 
         /* --- PARTICLES --- */
-        #particles-js {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
+        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+
+        /* --- RSVP & WISH MODAL STYLES --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
         }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: var(--card-bg); padding: 30px; border-radius: 15px;
+            width: 90%; max-width: 400px; position: relative; text-align: left;
+            box-shadow: var(--shadow); color: var(--text-main);
+        }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; color: var(--text-sub); }
+        .modal-content input, .modal-content select, .modal-content textarea {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc;
+            border-radius: 8px; font-family: 'Montserrat', sans-serif; background: var(--bg-color); color: var(--text-main);
+        }
+        .modal-content label { font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; display: block; }
+
+        /* --- GUIDE MODAL STYLES --- */
+        .guide-content {
+            max-height: 80vh; overflow-y: auto; font-size: 0.85rem; line-height: 1.5;
+        }
+        .guide-content h3 { color: var(--accent-rose); margin-top: 15px; margin-bottom: 5px; font-family: 'Playfair Display', serif;}
+        .guide-content ul { padding-left: 20px; margin-bottom: 10px; }
+        .guide-content li { margin-bottom: 5px; }
+        .guide-content code { background: #eee; padding: 2px 4px; border-radius: 4px; color: #d63384; font-family: monospace; }
+        body.dark-mode .guide-content code { background: #333; color: #ff99cc; }
     </style>
 </head>
 <body>
@@ -199,13 +183,15 @@
     <div id="particles-js"></div>
 
     <div id="main-content">
+        <!-- Butang Panduan (Untuk Client) -->
+        <button class="control-btn" onclick="openGuide()" title="Client Guide" style="position: fixed; top: 15px; left: 15px; z-index: 100;">❓</button>
+        
         <div class="top-controls">
             <button class="control-btn" id="audioBtn" onclick="toggleAudio()" title="Play Music">🎵</button>
             <button class="control-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
         </div>
 
         <div class="scene" id="scene">
-            <!-- PENTING: onclick pada container, BUKAN pada face -->
             <div class="card-container" id="card" onclick="flipCard(event)">
                 <div class="card-face card-front"></div>
                 <div class="card-face card-back"></div>
@@ -229,9 +215,12 @@
             </div>
 
             <div class="action-buttons">
-                <a href="https://wa.me/6596486606?text=Assalamualaikum%20%2F%20Hello.%20Saya%20ingin%20mengesahkan%20kehadiran%20ke%20majlis%20Syahiran%20%26%20Nurhidayah.%20(I%20would%20like%20to%20RSVP%20for%20Syahiran%20%26%20Nurhidayah's%20wedding)." target="_blank" class="btn-action btn-rsvp">
-                    💬 RSVP via WhatsApp
-                </a>
+                <button onclick="openRSVP()" class="btn-action btn-rsvp">
+                    💌 RSVP Now
+                </button>
+                <button onclick="openWish()" class="btn-action btn-calendar">
+                    ✨ Leave a Wish
+                </button>
                 <a href="https://maps.google.com/?q=The+Iris+810+Geylang+Road+City+Plaza+Singapore+409286" target="_blank" class="btn-action btn-maps">
                     📍 View Location (The Iris)
                 </a>
@@ -242,9 +231,98 @@
         </div>
     </div>
 
+    <!-- === RSVP MODAL (POP-UP) === -->
+    <div id="rsvpModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeRSVP()">&times;</span>
+            <h2 style="font-family: 'Playfair Display', serif; color: var(--accent-rose); margin-bottom: 20px;">RSVP</h2>
+            
+            <form id="rsvpForm" onsubmit="submitRSVP(event)">
+                <input type="text" id="guestName" placeholder="Your Full Name" required>
+                
+                <label>Will you be attending?</label>
+                <select id="guestAttending" required>
+                    <option value="Yes">Yes, I will attend</option>
+                    <option value="No">No, I cannot attend</option>
+                </select>
+
+                <label>Bringing a partner?</label>
+                <select id="guestPartner" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+
+                <label>Bringing family?</label>
+                <select id="guestFamily" required>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+
+                <button type="submit" id="rsvpSubmitBtn" class="btn-action btn-rsvp" style="width: 100%; margin-top: 15px;">Submit RSVP</button>
+            </form>
+            <div id="rsvpMessage" style="margin-top: 15px; text-align: center; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <!-- === WISH MODAL (POP-UP) === -->
+    <div id="wishModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeWish()">&times;</span>
+            <h2 style="font-family: 'Playfair Display', serif; color: var(--accent-rose); margin-bottom: 20px;">Leave a Wish</h2>
+            <p style="font-size: 0.8rem; margin-bottom: 15px; color: var(--text-sub);">Your message will be shared privately with the couple.</p>
+            
+            <form id="wishForm" onsubmit="submitWish(event)">
+                <input type="text" id="wishName" placeholder="Your Name" required>
+                <textarea id="wishText" placeholder="Write your wishes here..." rows="4" required></textarea>
+
+                <button type="submit" id="wishSubmitBtn" class="btn-action btn-maps" style="width: 100%; border: 1px solid var(--accent-rose); color: var(--accent-rose);">Send Wish</button>
+            </form>
+            <div id="wishMessage" style="margin-top: 15px; text-align: center; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <!-- === GUIDE MODAL (POP-UP) === -->
+    <div id="guideModal" class="modal-overlay">
+        <div class="modal-content guide-content">
+            <span class="close-btn" onclick="closeGuide()">&times;</span>
+            <h2 style="font-family: 'Playfair Display', serif; color: var(--accent-rose); margin-bottom: 15px;">Client Guide</h2>
+            
+            <p><strong>Welcome!</strong> This guide shows you how to manage your guest list and wishes in your Google Sheet.</p>
+            
+            <h3>📋 TAB 1: RSVP (Guest List)</h3>
+            <p>Every guest who RSVPs through the card appears here automatically.</p>
+            <ul>
+                <li><strong>How to add a guest manually (physical card):</strong><br>
+                Scroll to the first empty row at the bottom. Type their <strong>Name</strong>, choose <strong>Yes/No</strong> for the dropdowns, and choose <strong>Manual</strong> for Source.</li>
+                <li><strong>How to edit:</strong> Click the cell, type the new value, press Enter.</li>
+                <li><strong>How to delete:</strong> Right-click the row number on the left, click <strong>Delete row</strong>.</li>
+            </ul>
+
+            <h3>💌 TAB 2: Wishes</h3>
+            <p>Every wish from your guests appears here. <strong>This is private</strong> — only you can see it.</p>
+            <ul>
+                <li><strong>How to review a wish:</strong><br>
+                Read the <strong>Wish</strong> column. Click the <strong>Status</strong> cell and choose from the dropdown:</li>
+                <li><code>Pending</code> — Not reviewed yet.</li>
+                <li><code>Approved</code> — Clean, keep it.</li>
+                <li><code>Rejected</code> — Inappropriate, marked.</li>
+                <li><strong>How to delete:</strong> Right-click the row number, click <strong>Delete row</strong>.</li>
+            </ul>
+
+            <h3>⚠️ IMPORTANT</h3>
+            <p>Do <strong>NOT</strong> delete the header row (Row 1) or change the column names. Do not touch the first empty row where new RSVPs land.</p>
+            
+            <button class="btn-action btn-rsvp" onclick="closeGuide()" style="margin-top: 15px;">Close Guide</button>
+        </div>
+    </div>
+
     <script>
-        let audioCtx, isAudioPlaying = false, loopInterval;
-        let autoScrollActive = false, scrollSpeed = 0.8; 
+        // --- MAIN LOGIC ---
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbylZiD_zidYkL5D7smLHpWTMrGVjmrarY3Vk5lxkrDBIecK3ikscvFl1C3tTKfCHFaS/exec';
+
+        let audioCtx = null, masterGain = null, delayNode = null, feedbackGain = null;
+        let isAudioPlaying = false;
+        let loopTimer = null;
 
         function openInvitation() {
             document.getElementById('splash').style.opacity = '0';
@@ -253,10 +331,13 @@
                 document.getElementById('main-content').style.opacity = '1';
                 document.getElementById('main-content').style.visibility = 'visible';
                 initParticles();
-                playLoopAudio();
-                setTimeout(startAutoScroll, 2000);
+                playLoopAudio(); // Mula muzik nasheed automatik
+                startAutoScroll(); // Mula auto-scroll
             }, 800);
         }
+
+        // --- AUTO SCROLL LOGIC ---
+        let autoScrollActive = false, scrollSpeed = 0.8; 
 
         function startAutoScroll() {
             autoScrollActive = true;
@@ -273,6 +354,7 @@
             requestAnimationFrame(scrollStep);
         }
 
+        // Hentikan auto-scroll bila tetamu sentuh skrin / scroll sendiri
         ['mousedown', 'wheel', 'touchstart'].forEach(evt => {
             window.addEventListener(evt, () => { autoScrollActive = false; }, { passive: true });
         });
@@ -283,7 +365,6 @@
             btn.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
 
-        // --- LOGIK FLIP YANG PALING SELAMAT ---
         const card = document.getElementById('card');
         let isFlipped = false;
 
@@ -291,17 +372,13 @@
             if(event) event.stopPropagation();
             isFlipped = !isFlipped;
             card.classList.toggle('flipped');
-            
-            // Reset tilt bila flip
             card.style.transform = ''; 
         }
 
-        // Tilt effect (pastikan tak lari bila flip)
         document.getElementById('scene').addEventListener('mousemove', (e) => {
-            if(isFlipped) return; // Jangan tilt kalau tengah tunjuk belakang
+            if(isFlipped) return;
             const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            // Kita guna CSS variable atau terus, tapi kita kena pastikan class flipped tak di-override
             if(!card.classList.contains('flipped')) {
                 card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
             }
@@ -314,7 +391,6 @@
             setTimeout(() => card.style.transition = 'transform 0.8s ease-in-out', 500);
         });
 
-        // --- COUNTDOWN ---
         const targetDate = new Date("November 22, 2026 17:30:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -326,60 +402,136 @@
             document.getElementById("secs").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // --- AUDIO ---
-        function playLoopAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            isAudioPlaying = true;
-            document.getElementById('audioBtn').innerHTML = '🔊';
+        // ============================================================
+        //  NASHEED AUDIO ENGINE (MAQAM BAYATI LOOP)
+        // ============================================================
+        const NOTE = {
+            D3: 146.83, Eb3: 155.56, F3: 174.61, G3: 196.00, A3: 220.00,
+            Bb3: 233.08, C4: 261.63, D4: 293.66, Eb4: 311.13, F4: 349.23,
+            G4: 392.00, A4: 440.00, Bb4: 466.16, C5: 523.25, D5: 587.33,
+            Eb5: 622.25, F5: 698.46, G5: 783.99
+        };
 
-            const masterGain = audioCtx.createGain();
-            masterGain.connect(audioCtx.destination);
-            masterGain.gain.setValueAtTime(0.2, audioCtx.currentTime); 
+        const MELODY = [
+            ['D4', 1], ['Eb4', 0.5], ['F4', 0.5], ['G4', 1], ['A4', 1],
+            ['G4', 0.5], ['F4', 0.5], ['Eb4', 1], ['D4', 2],
+            ['D4', 1], ['Eb4', 0.5], ['F4', 0.5], ['G4', 1], ['A4', 0.5], ['Bb4', 0.5],
+            ['A4', 1], ['G4', 1], ['F4', 1], ['D4', 2],
+            ['F4', 1], ['G4', 0.5], ['A4', 0.5], ['Bb4', 1], ['C5', 1],
+            ['Bb4', 0.5], ['A4', 0.5], ['G4', 1], ['F4', 1], ['D4', 2],
+            ['A4', 1], ['G4', 0.5], ['F4', 0.5], ['Eb4', 1], ['D4', 1],
+            ['Eb4', 0.5], ['F4', 0.5], ['G4', 1], ['D4', 2]
+        ];
 
-            const notesD = [293.66, 369.99, 440.00, 587.33];
-            const notesA = [220.00, 277.18, 329.63, 440.00];
-            const notesBm = [246.94, 293.66, 369.99, 493.88];
-            const notesG = [196.00, 246.94, 293.66, 392.00];
+        const CHORDS = [
+            ['D3', 'A3'], ['D3', 'A3'], ['G3', 'D4'], ['G3', 'D4'],
+            ['D3', 'A3'], ['D3', 'A3'], ['F3', 'C4'], ['D3', 'A3'],
+            ['F3', 'C4'], ['Bb3', 'F4'], ['G3', 'D4'], ['D3', 'A3'],
+            ['A3', 'Eb4'], ['D3', 'A3'], ['G3', 'D4'], ['D3', 'A3']
+        ];
 
-            let loopStep = 0;
-            function playNextSequence() {
-                if (!isAudioPlaying) return;
-                let time = audioCtx.currentTime;
-                let seq1 = (loopStep % 2 === 0) ? notesD : notesA;
-                let seq2 = (loopStep % 2 === 0) ? notesBm : notesG;
-                seq1.forEach(freq => { playTone(freq, time, 1.2, masterGain); time += 0.3; });
-                seq2.forEach(freq => { playTone(freq, time, 1.2, masterGain); time += 0.3; });
-                loopStep++;
+        const BPM = 100;
+        const BEAT = 60 / BPM;
+        const MELODY_DURATION = MELODY.reduce((s, [, b]) => s + b, 0) * BEAT;
+        const LOOP_GAP = 2.0; 
+
+        function initAudioEngine() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                masterGain = audioCtx.createGain();
+                masterGain.gain.value = 0.18;
+                masterGain.connect(audioCtx.destination);
+
+                delayNode = audioCtx.createDelay(1.0);
+                delayNode.delayTime.value = BEAT * 0.75;
+                feedbackGain = audioCtx.createGain();
+                feedbackGain.gain.value = 0.28;
+                delayNode.connect(feedbackGain);
+                feedbackGain.connect(delayNode);
+                delayNode.connect(masterGain);
             }
-            playNextSequence(); 
-            loopInterval = setInterval(playNextSequence, 2400); 
+            if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function playTone(freq, startTime, duration, masterGain) {
-            const osc = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            osc.type = 'triangle'; 
-            osc.frequency.setValueAtTime(freq, startTime);
-            gainNode.gain.setValueAtTime(0, startTime);
-            gainNode.gain.linearRampToValueAtTime(0.6, startTime + 0.02);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-            osc.connect(gainNode);
-            gainNode.connect(masterGain);
-            osc.start(startTime);
-            osc.stop(startTime + duration);
+        function playNote(freq, startTime, duration, gainScale = 1) {
+            const t = startTime, end = t + duration;
+            const osc1 = audioCtx.createOscillator();
+            osc1.type = 'triangle'; osc1.frequency.value = freq;
+            const osc2 = audioCtx.createOscillator();
+            osc2.type = 'sine'; osc2.frequency.value = freq * 2;
+            const g1 = audioCtx.createGain(); const g2 = audioCtx.createGain();
+
+            g1.gain.setValueAtTime(0, t);
+            g1.gain.linearRampToValueAtTime(0.75 * gainScale, t + 0.008);
+            g1.gain.exponentialRampToValueAtTime(0.001, end);
+            g2.gain.setValueAtTime(0, t);
+            g2.gain.linearRampToValueAtTime(0.18 * gainScale, t + 0.008);
+            g2.gain.exponentialRampToValueAtTime(0.001, end);
+
+            osc1.connect(g1); osc2.connect(g2);
+            g1.connect(masterGain); g1.connect(delayNode);
+            g2.connect(masterGain); g2.connect(delayNode);
+            osc1.start(t); osc1.stop(end); osc2.start(t); osc2.stop(end);
+        }
+
+        function playPad(rootFreq, fifthFreq, startTime, duration, gainScale = 1) {
+            const t = startTime, end = t + duration;
+            const g = audioCtx.createGain();
+            g.gain.setValueAtTime(0, t);
+            g.gain.linearRampToValueAtTime(0.08 * gainScale, t + duration * 0.3);
+            g.gain.linearRampToValueAtTime(0, end);
+            g.connect(masterGain);
+            [rootFreq, fifthFreq].forEach(f => {
+                const o = audioCtx.createOscillator();
+                o.type = 'sine'; o.frequency.value = f;
+                o.connect(g); o.start(t); o.stop(end);
+            });
+        }
+
+        function playCycle(startTime) {
+            let time = startTime, elapsed = 0;
+            CHORDS.forEach((ch, i) => {
+                playPad(NOTE[ch[0]], NOTE[ch[1]], startTime + i * 4 * BEAT, 4 * BEAT);
+            });
+            for (const [noteName, beats] of MELODY) {
+                if (!isAudioPlaying) return;
+                const freq = NOTE[noteName];
+                const dur = beats * BEAT * 0.9;
+                let gainScale = 1;
+                if (elapsed < 3 * BEAT) gainScale = 0.3 + (elapsed / (3 * BEAT)) * 0.7;
+                else if (elapsed > MELODY_DURATION - 3 * BEAT) gainScale = 0.3 + ((MELODY_DURATION - elapsed) / (3 * BEAT)) * 0.7;
+                playNote(freq, time, dur, gainScale);
+                time += beats * BEAT; elapsed += beats * BEAT;
+            }
+        }
+
+        function playLoopAudio() {
+            initAudioEngine();
+            isAudioPlaying = true;
+            document.getElementById('audioBtn').innerHTML = '🔊';
+            
+            const runLoop = () => {
+                if (!isAudioPlaying) return;
+                const cycleStart = audioCtx.currentTime + 0.1;
+                playCycle(cycleStart);
+                loopTimer = setTimeout(runLoop, (MELODY_DURATION + LOOP_GAP) * 1000);
+            };
+            runLoop();
         }
 
         function toggleAudio() {
             if (isAudioPlaying) {
-                clearInterval(loopInterval); audioCtx.suspend();
-                isAudioPlaying = false; document.getElementById('audioBtn').innerHTML = '🔇';
+                isAudioPlaying = false;
+                if (loopTimer) clearTimeout(loopTimer);
+                if (masterGain && audioCtx) {
+                    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+                    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+                    masterGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                    setTimeout(() => { if (masterGain) masterGain.gain.value = 0.18; }, 600);
+                }
+                document.getElementById('audioBtn').innerHTML = '🔇';
             } else {
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume(); isAudioPlaying = true;
-                    document.getElementById('audioBtn').innerHTML = '🔊';
-                    playLoopAudio();
-                } else { playLoopAudio(); }
+                playLoopAudio();
             }
         }
 
@@ -428,6 +580,94 @@
             }
             animate();
         }
+
+        // --- RSVP LOGIC ---
+        function openRSVP() { document.getElementById('rsvpModal').classList.add('active'); }
+        function closeRSVP() {
+            document.getElementById('rsvpModal').classList.remove('active');
+            document.getElementById('rsvpMessage').innerHTML = '';
+            document.getElementById('rsvpForm').reset();
+        }
+
+        async function submitRSVP(e) {
+            e.preventDefault();
+            const btn = document.getElementById('rsvpSubmitBtn');
+            const msg = document.getElementById('rsvpMessage');
+            btn.innerText = 'Submitting...';
+            msg.innerHTML = '';
+
+            const data = {
+                type: 'rsvp',
+                name: document.getElementById('guestName').value,
+                attending: document.getElementById('guestAttending').value,
+                partner: document.getElementById('guestPartner').value,
+                withFamily: document.getElementById('guestFamily').value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                });
+                const json = await response.json();
+
+                if (json.status === 'ok') {
+                    msg.innerHTML = '✅ <span style="color: green;">Thank you! Your RSVP has been received.</span>';
+                    setTimeout(closeRSVP, 3000);
+                } else {
+                    msg.innerHTML = '❌ <span style="color: red;">Error: ' + json.message + '</span>';
+                }
+            } catch (error) {
+                msg.innerHTML = '❌ <span style="color: red;">Network error. Please try again.</span>';
+            }
+            btn.innerText = 'Submit RSVP';
+        }
+
+        // --- WISH LOGIC ---
+        function openWish() { document.getElementById('wishModal').classList.add('active'); }
+        function closeWish() {
+            document.getElementById('wishModal').classList.remove('active');
+            document.getElementById('wishMessage').innerHTML = '';
+            document.getElementById('wishForm').reset();
+        }
+
+        async function submitWish(e) {
+            e.preventDefault();
+            const btn = document.getElementById('wishSubmitBtn');
+            const msg = document.getElementById('wishMessage');
+            btn.innerText = 'Sending...';
+            msg.innerHTML = '';
+
+            const data = {
+                type: 'wish',
+                name: document.getElementById('wishName').value,
+                wish: document.getElementById('wishText').value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                });
+                const json = await response.json();
+
+                if (json.status === 'ok') {
+                    msg.innerHTML = '✅ <span style="color: green;">Thank you! Your wish has been sent to the couple.</span>';
+                    setTimeout(closeWish, 3000);
+                } else {
+                    msg.innerHTML = '❌ <span style="color: red;">Error: ' + json.message + '</span>';
+                }
+            } catch (error) {
+                msg.innerHTML = '❌ <span style="color: red;">Network error. Please try again.</span>';
+            }
+            btn.innerText = 'Send Wish';
+        }
+
+        // --- GUIDE LOGIC ---
+        function openGuide() { document.getElementById('guideModal').classList.add('active'); }
+        function closeGuide() { document.getElementById('guideModal').classList.remove('active'); }
     </script>
 </body>
 </html>
