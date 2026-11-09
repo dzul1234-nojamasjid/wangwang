@@ -132,7 +132,7 @@
             height: 480px;    
             perspective: 1200px;
             margin-top: 50px;
-            margin-bottom: 30px; /* Tambah jarak bawah sikit */
+            margin-bottom: 30px; 
             z-index: 10;
         }
         .card-container {
@@ -175,12 +175,35 @@
             margin-bottom: 5px;
             line-height: 1.1;
         }
+        
+        /* KEMAS KINI: Tarikh, Hari & Masa */
+        .date-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .day-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--accent-rose);
+            margin-bottom: -5px;
+        }
         .date-text {
             font-family: 'Playfair Display', serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             letter-spacing: 2px;
-            margin-bottom: 20px;
             text-transform: uppercase;
+            color: var(--text-main);
+        }
+        .time-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: var(--text-sub);
+            margin-top: 5px;
         }
 
         /* --- COUNTDOWN --- */
@@ -271,7 +294,13 @@
 
         <div class="info-section" id="details">
             <div class="names">Syahiran & Nurhidayah</div>
-            <div class="date-text">22 November 2026</div>
+            
+            <!-- BAHAGIAN HARI, TARIKH & MASA YANG BARU -->
+            <div class="date-container">
+                <div class="day-text">Sunday</div>
+                <div class="date-text">22 November 2026</div>
+                <div class="time-text">5:30 PM - 9:30 PM</div>
+            </div>
 
             <div class="countdown-container" id="countdown">
                 <div class="countdown-box"><span id="days">00</span><small>Days</small></div>
@@ -281,7 +310,8 @@
             </div>
 
             <div class="action-buttons">
-                <a href="https://wa.me/6596486606?text=Hi!%20Saya%20ingin%20mengesahkan%20kehadiran%20ke%20majlis%20Syahiran%20%26%20Nurhidayah." target="_blank" class="btn-action btn-rsvp">
+                <!-- WhatsApp RSVP (Bilingual) -->
+                <a href="https://wa.me/6596486606?text=Assalamualaikum%20%2F%20Hello.%20Saya%20ingin%20mengesahkan%20kehadiran%20ke%20majlis%20Syahiran%20%26%20Nurhidayah.%20(I%20would%20like%20to%20RSVP%20for%20Syahiran%20%26%20Nurhidayah's%20wedding)." target="_blank" class="btn-action btn-rsvp">
                     💬 RSVP via WhatsApp
                 </a>
                 <a href="https://maps.google.com/?q=The+Iris+810+Geylang+Road+City+Plaza+Singapore+409286" target="_blank" class="btn-action btn-maps">
@@ -299,9 +329,8 @@
         let isAudioPlaying = false;
         let loopInterval;
         
-        // Auto Scroll Variables
         let autoScrollActive = false;
-        let scrollSpeed = 0.8; // Laju auto-scroll (kecil = perlahan)
+        let scrollSpeed = 0.8; 
 
         function openInvitation() {
             document.getElementById('splash').style.opacity = '0';
@@ -312,24 +341,18 @@
                 
                 initParticles();
                 playLoopAudio();
-                
-                // Mula auto-scroll perlahan selepas 2 saat
                 setTimeout(startAutoScroll, 2000);
             }, 800);
         }
 
-        // --- AUTO SCROLL LOGIC ---
         function startAutoScroll() {
             autoScrollActive = true;
             let scrollPos = window.scrollY;
 
             function scrollStep() {
                 if (!autoScrollActive) return;
-                
                 scrollPos += scrollSpeed;
                 window.scrollTo(0, scrollPos);
-                
-                // Berhenti auto-scroll jika dah sampai bawah
                 if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
                     autoScrollActive = false;
                     return;
@@ -339,7 +362,6 @@
             requestAnimationFrame(scrollStep);
         }
 
-        // Hentikan auto-scroll bila pengguna sentuh skrin / scroll manual
         ['mousedown', 'wheel', 'touchstart'].forEach(evt => {
             window.addEventListener(evt, () => { autoScrollActive = false; }, { passive: true });
         });
@@ -396,7 +418,7 @@
 
             const masterGain = audioCtx.createGain();
             masterGain.connect(audioCtx.destination);
-            masterGain.gain.setValueAtTime(0.2, audioCtx.currentTime); // Volume tetap
+            masterGain.gain.setValueAtTime(0.2, audioCtx.currentTime); 
 
             const notesD = [293.66, 369.99, 440.00, 587.33];
             const notesA = [220.00, 277.18, 329.63, 440.00];
@@ -418,7 +440,6 @@
             }
 
             playNextSequence(); 
-            // Panggil melodi setiap 2.4 saat (masa untuk 1 kitaran chord)
             loopInterval = setInterval(playNextSequence, 2400); 
         }
 
@@ -442,7 +463,7 @@
 
         function toggleAudio() {
             if (isAudioPlaying) {
-                clearInterval(loopInterval); // Hentikan loop
+                clearInterval(loopInterval);
                 audioCtx.suspend();
                 isAudioPlaying = false;
                 document.getElementById('audioBtn').innerHTML = '🔇';
@@ -451,7 +472,7 @@
                     audioCtx.resume();
                     isAudioPlaying = true;
                     document.getElementById('audioBtn').innerHTML = '🔊';
-                    playLoopAudio(); // Restart loop
+                    playLoopAudio();
                 } else {
                     playLoopAudio();
                 }
