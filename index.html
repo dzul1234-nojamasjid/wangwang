@@ -438,19 +438,23 @@
         function initAudioEngine() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                masterGain = audioCtx.createGain();
-                masterGain.gain.value = 0.18;
-                masterGain.connect(audioCtx.destination);
-
-                delayNode = audioCtx.createDelay(1.0);
-                delayNode.delayTime.value = BEAT * 0.75;
-                feedbackGain = audioCtx.createGain();
-                feedbackGain.gain.value = 0.28;
-                delayNode.connect(feedbackGain);
-                feedbackGain.connect(delayNode);
-                delayNode.connect(masterGain);
+            } else if (masterGain) {
+                masterGain.disconnect(); // <-- TAMBAH BARIS NI (Putuskan sambungan enjin lama)
             }
+            
             if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0.18;
+            masterGain.connect(audioCtx.destination);
+
+            delayNode = audioCtx.createDelay(1.0);
+            delayNode.delayTime.value = BEAT * 0.75;
+            feedbackGain = audioCtx.createGain();
+            feedbackGain.gain.value = 0.28;
+            delayNode.connect(feedbackGain);
+            feedbackGain.connect(delayNode);
+            delayNode.connect(masterGain);
         }
 
         function playNote(freq, startTime, duration, gainScale = 1) {
@@ -521,16 +525,16 @@
 
         function toggleAudio() {
             if (isAudioPlaying) {
+                // MATIKAN BUNYI (Mute)
                 isAudioPlaying = false;
                 if (loopTimer) clearTimeout(loopTimer);
-                if (masterGain && audioCtx) {
-                    masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
-                    masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
-                    masterGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-                    setTimeout(() => { if (masterGain) masterGain.gain.value = 0.18; }, 600);
+                if (audioCtx) {
+                    audioCtx.close(); // Tutup terus enjin audio (bunyi terus senyap)
+                    audioCtx = null; 
                 }
                 document.getElementById('audioBtn').innerHTML = '🔇';
             } else {
+                // HIDUPKAN BUNYI (Play)
                 playLoopAudio();
             }
         }
